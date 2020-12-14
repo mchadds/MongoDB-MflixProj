@@ -123,6 +123,7 @@ export default class CommentsDAO {
     try {
       // TODO Ticket: User Report
       // Return the 20 users who have commented the most on MFlix.
+      // Different stages of the pipeline
       const groupStage = { $group: { _id: "$email", count: { $sum: 1 } } }
       const sortStage = { $sort: { count: -1 } }
       const limitStage = { $limit: 20 }
