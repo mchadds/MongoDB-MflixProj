@@ -19,6 +19,7 @@ Back-end development includes:
 ## Back-end Tools
 - [Node.js](https://nodejs.org/en/) JavaScript runtime environment (driver used for CRUD operations)
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) Cloud environment where database cluster is hosted with sample data
+- [Express.js](https://expressjs.com/) Framework for API
 
 ## Proof of Completion
 ![Image of Cart](https://github.com/mchadds/MongoDB-MflixProj/blob/main/images/M220JS_proof_of_completion.jpg)
