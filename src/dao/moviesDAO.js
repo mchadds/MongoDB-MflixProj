@@ -202,6 +202,8 @@ export default class MoviesDAO {
       // Add the stages to queryPipeline in the correct order.
     ]
 
+    queryPipeline.push(skipStage, limitStage, facetStage)
+
     try {
       const results = await (await movies.aggregate(queryPipeline)).next()
       const count = await (await movies.aggregate(countingPipeline)).next()
@@ -263,7 +265,7 @@ export default class MoviesDAO {
 
     // TODO Ticket: Paging
     // Use the cursor to only return the movies that belong on the current page
-    const displayCursor = cursor.limit(moviesPerPage)
+    const displayCursor = cursor.limit(moviesPerPage).skip(page * moviesPerPage)
 
     try {
       const moviesList = await displayCursor.toArray()
@@ -299,8 +301,36 @@ export default class MoviesDAO {
       // Implement the required pipeline.
       const pipeline = [
         {
+          // find the current movie in the "movies" collection
           $match: {
             _id: ObjectId(id),
+          },
+        },
+        {
+          // lookup comments from the "comments" collection
+          $lookup: {
+            from: "comments",
+            let: {
+              id: "$_id",
+            },
+            pipeline: [
+              {
+                // only join comments with a match movie_id
+                $match: {
+                  $expr: {
+                    $eq: ["$movie_id", "$$id"],
+                  },
+                },
+              },
+              {
+                // sort by date in descending order
+                $sort: {
+                  date: -1,
+                },
+              },
+            ],
+            // call embedded field comments
+            as: "comments",
           },
         },
       ]
@@ -312,7 +342,9 @@ export default class MoviesDAO {
       Handle the error that occurs when an invalid ID is passed to this method.
       When this specific error is thrown, the method should return `null`.
       */
-
+     if (String(e).startsWith("MongoError: E11000 duplicate key error") || String(e).startsWith("Error: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters")) {
+      return null
+    }
       // TODO Ticket: Error Handling
       // Catch the InvalidId error by string matching, and then handle it.
       console.error(`Something went wrong in getMovieByID: ${e}`)
