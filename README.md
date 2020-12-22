@@ -21,4 +21,4 @@ Back-end development includes:
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) Cloud environment where database cluster is hosted with sample data
 
 ## Proof of Completion
-
+![Image of Cart](https://github.com/mchadds/React-Shopping-Cart-Patterns/blob/master/images/Cart.png)
