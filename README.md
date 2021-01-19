@@ -1,8 +1,7 @@
 # MongoDB-MflixProj
-Mongo DB University course project
 
 ## Description
-The purpose of this project is for back-end development for a movie-browsing web app (MFlix).
+The purpose of this project is for back-end development of a movie-browsing web app (MFlix).
 Back-end development includes:
 - Creating and sharing a database connection
 - Perform CRUD operations
